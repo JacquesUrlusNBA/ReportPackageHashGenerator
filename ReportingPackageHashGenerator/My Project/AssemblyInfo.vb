@@ -12,7 +12,7 @@ Imports System.Runtime.InteropServices
 <Assembly: AssemblyDescription("Hash generator for ESEF Reporting Packages and stand-alone files")>
 <Assembly: AssemblyCompany("The Royal Netherlands Institute of Chartered Accountants")>
 <Assembly: AssemblyProduct("Reporting package hash generator")>
-<Assembly: AssemblyCopyright("Copyright © NBA 2021 - 2022")>
+<Assembly: AssemblyCopyright("Copyright © NBA 2021 - 2025")>
 <Assembly: AssemblyTrademark("")>
 
 <Assembly: ComVisible(False)>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' by using the '*' as shown below:
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("1.2023.1.1")>
-<Assembly: AssemblyFileVersion("1.2023.1.1")>
+<Assembly: AssemblyVersion("1.2025.3.0")>
+<Assembly: AssemblyFileVersion("1.2025.3.0")>

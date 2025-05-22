@@ -41,19 +41,25 @@ Public Class FrmMain
 
         Application.DoEvents()
 
-        'Get the extension
+            'Get the extension
 
-        Dim StrExtension = Path.GetExtension(OpenFileDialog.FileName).ToUpper()
+            Dim StrExtension = Path.GetExtension(OpenFileDialog.FileName).ToUpper()
 
-        If StrExtension = ".ZIP" Then
+            '==================================
+            ' 2025-01-27: j.urlus@nba.nl
+            ' Added support for Report Package 1.0., now also supporting files with extension .xbri (Inline XBRL report package) and .xbr (Non-Inline XBRL report package)
+            ' We should ignore the fact that the extensions are supported when written with capitals
+            '==================================
 
-            'Calculated the hash results for the RP
+            If StrExtension = ".ZIP" Or StrExtension = ".XBRI" Or StrExtension = ".XBR" Then
 
-            HashResult = RPHG.CreateHash(OpenFileDialog.FileName)
+                'Calculated the hash results for the RP
 
-        Else
+                HashResult = RPHG.CreateHash(OpenFileDialog.FileName)
 
-            HashResult = RPHG.CreateHashFromSingleFile(OpenFileDialog.FileName)
+            Else
+
+                HashResult = RPHG.CreateHashFromSingleFile(OpenFileDialog.FileName)
 
         End If
 

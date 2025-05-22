@@ -216,27 +216,37 @@ Public Class ClsRPHashGenerator
 
                         Directory.CreateDirectory(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, StrFolder))
 
-                        'Copy file
+                        '==================================
+                        ' 2025-02-13: j.urlus@nba.nl
+                        ' In some cases the archive entries contains empty directories. They can not be copied (as a file) and should not be added to the LstCLSFiles for the calculation of the hash.
+                        '==================================
 
-                        ZipEntry.ExtractToFile(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, StrZipEntry), True)
+                        If Not StrZipEntry.EndsWith("\") Then
 
-                        'Add file to list of files (LstClsFile)
 
-                        Dim FileItem As New ClsFile With {
+                            'Copy file
+
+                            ZipEntry.ExtractToFile(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, StrZipEntry), True)
+
+                            'Add file to list of files (LstClsFile)
+
+                            Dim FileItem As New ClsFile With {
                             .FileLocationAndName = Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, StrZipEntry),
                             .FileName = Path.GetFileName(StrZipEntry)
                         }
 
-                        LstClsFile.Add(FileItem)
+                            LstClsFile.Add(FileItem)
+
+                        End If
 
                     Else 'File is in the root of the zip file
 
-                        '==================================
-                        ' 2022-08-24: j.urlus@nba.nl
-                        ' Support for files in the root directory 
-                        '==================================
+                            '==================================
+                            ' 2022-08-24: j.urlus@nba.nl
+                            ' Support for files in the root directory 
+                            '==================================
 
-                        Directory.CreateDirectory(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root"))
+                            Directory.CreateDirectory(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root"))
 
                         'Copy file
 
