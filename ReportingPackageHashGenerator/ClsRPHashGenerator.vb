@@ -185,7 +185,8 @@ Public Class ClsRPHashGenerator
                     ' Let's assume that the auditors report is a (signed) PDF --> skip this file
                     '==================================
 
-                    If Path.GetExtension(ZipEntry.FullName).ToUpper = "PDF" Then Continue For
+                    ''If Path.GetExtension(ZipEntry.FullName).ToUpper = "PDF" Then Continue For
+                    If String.Equals(Path.GetExtension(ZipEntry.FullName).ToUpper, "PDF") Then Continue For
 
                     '==================================
                     ' 2020-11-09: j.urlus@nba.nl
