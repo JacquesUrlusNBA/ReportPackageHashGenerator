@@ -48,39 +48,39 @@ Partial Class FrmMain
         '
         'CmdOpen
         '
-        Me.CmdOpen.Location = New System.Drawing.Point(40, 43)
-        Me.CmdOpen.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.CmdOpen.Location = New System.Drawing.Point(15, 18)
+        Me.CmdOpen.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CmdOpen.Name = "CmdOpen"
-        Me.CmdOpen.Size = New System.Drawing.Size(282, 62)
+        Me.CmdOpen.Size = New System.Drawing.Size(106, 26)
         Me.CmdOpen.TabIndex = 0
         Me.CmdOpen.Text = "Select"
         Me.CmdOpen.UseVisualStyleBackColor = True
         '
         'TxtHash
         '
-        Me.TxtHash.Location = New System.Drawing.Point(214, 43)
-        Me.TxtHash.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.TxtHash.Location = New System.Drawing.Point(80, 18)
+        Me.TxtHash.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.TxtHash.Name = "TxtHash"
         Me.TxtHash.ReadOnly = True
-        Me.TxtHash.Size = New System.Drawing.Size(478, 38)
+        Me.TxtHash.Size = New System.Drawing.Size(182, 20)
         Me.TxtHash.TabIndex = 1
         '
         'Label1
         '
         Me.Label1.AutoSize = True
-        Me.Label1.Location = New System.Drawing.Point(18, 48)
-        Me.Label1.Margin = New System.Windows.Forms.Padding(6, 0, 6, 0)
+        Me.Label1.Location = New System.Drawing.Point(7, 20)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
         Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(182, 32)
+        Me.Label1.Size = New System.Drawing.Size(69, 13)
         Me.Label1.TabIndex = 2
         Me.Label1.Text = "Overall hash:"
         '
         'CmdClose
         '
-        Me.CmdClose.Location = New System.Drawing.Point(1696, 1071)
-        Me.CmdClose.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.CmdClose.Location = New System.Drawing.Point(636, 449)
+        Me.CmdClose.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CmdClose.Name = "CmdClose"
-        Me.CmdClose.Size = New System.Drawing.Size(192, 55)
+        Me.CmdClose.Size = New System.Drawing.Size(72, 23)
         Me.CmdClose.TabIndex = 3
         Me.CmdClose.Text = "Close"
         Me.CmdClose.UseVisualStyleBackColor = True
@@ -91,11 +91,11 @@ Partial Class FrmMain
         Me.LVOverview.Dock = System.Windows.Forms.DockStyle.Bottom
         Me.LVOverview.FullRowSelect = True
         Me.LVOverview.HideSelection = False
-        Me.LVOverview.Location = New System.Drawing.Point(8, 117)
-        Me.LVOverview.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.LVOverview.Location = New System.Drawing.Point(3, 47)
+        Me.LVOverview.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.LVOverview.MultiSelect = False
         Me.LVOverview.Name = "LVOverview"
-        Me.LVOverview.Size = New System.Drawing.Size(1840, 591)
+        Me.LVOverview.Size = New System.Drawing.Size(690, 250)
         Me.LVOverview.TabIndex = 4
         Me.LVOverview.UseCompatibleStateImageBehavior = False
         Me.LVOverview.View = System.Windows.Forms.View.Details
@@ -112,44 +112,39 @@ Partial Class FrmMain
         '
         'CmdExportToClipboard
         '
-        Me.CmdExportToClipboard.Location = New System.Drawing.Point(40, 1071)
-        Me.CmdExportToClipboard.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.CmdExportToClipboard.Location = New System.Drawing.Point(15, 449)
         Me.CmdExportToClipboard.Name = "CmdExportToClipboard"
-        Me.CmdExportToClipboard.Size = New System.Drawing.Size(464, 55)
+        Me.CmdExportToClipboard.Size = New System.Drawing.Size(174, 23)
         Me.CmdExportToClipboard.TabIndex = 5
         Me.CmdExportToClipboard.Text = "Copy result to clipboard"
         Me.CmdExportToClipboard.UseVisualStyleBackColor = True
         '
         'TxtSelectedRP
         '
-        Me.TxtSelectedRP.Location = New System.Drawing.Point(336, 52)
-        Me.TxtSelectedRP.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.TxtSelectedRP.Location = New System.Drawing.Point(126, 22)
         Me.TxtSelectedRP.Name = "TxtSelectedRP"
-        Me.TxtSelectedRP.Size = New System.Drawing.Size(1498, 38)
+        Me.TxtSelectedRP.Size = New System.Drawing.Size(564, 20)
         Me.TxtSelectedRP.TabIndex = 6
         '
         'GbRP
         '
         Me.GbRP.Controls.Add(Me.CmdOpen)
         Me.GbRP.Controls.Add(Me.TxtSelectedRP)
-        Me.GbRP.Location = New System.Drawing.Point(32, 64)
-        Me.GbRP.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.GbRP.Location = New System.Drawing.Point(12, 27)
         Me.GbRP.Name = "GbRP"
-        Me.GbRP.Padding = New System.Windows.Forms.Padding(8, 7, 8, 7)
-        Me.GbRP.Size = New System.Drawing.Size(1856, 128)
+        Me.GbRP.Size = New System.Drawing.Size(696, 54)
         Me.GbRP.TabIndex = 7
         Me.GbRP.TabStop = False
         Me.GbRP.Text = "Reporting package/stand-alone document"
         '
         'MenuStrip1
         '
-        Me.MenuStrip1.GripMargin = New System.Windows.Forms.Padding(2, 2, 0, 2)
         Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
         Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.MenuToolStripMenuItem})
         Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
         Me.MenuStrip1.Name = "MenuStrip1"
-        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(7, 2, 0, 2)
-        Me.MenuStrip1.Size = New System.Drawing.Size(1910, 49)
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(3, 1, 0, 1)
+        Me.MenuStrip1.Size = New System.Drawing.Size(716, 24)
         Me.MenuStrip1.TabIndex = 8
         Me.MenuStrip1.Text = "MenuStrip1"
         '
@@ -157,19 +152,19 @@ Partial Class FrmMain
         '
         Me.MenuToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.AboutToolStripMenuItem, Me.CloseToolStripMenuItem})
         Me.MenuToolStripMenuItem.Name = "MenuToolStripMenuItem"
-        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(119, 45)
+        Me.MenuToolStripMenuItem.Size = New System.Drawing.Size(50, 22)
         Me.MenuToolStripMenuItem.Text = "Menu"
         '
         'AboutToolStripMenuItem
         '
         Me.AboutToolStripMenuItem.Name = "AboutToolStripMenuItem"
-        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(266, 54)
+        Me.AboutToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.AboutToolStripMenuItem.Text = "About"
         '
         'CloseToolStripMenuItem
         '
         Me.CloseToolStripMenuItem.Name = "CloseToolStripMenuItem"
-        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(266, 54)
+        Me.CloseToolStripMenuItem.Size = New System.Drawing.Size(107, 22)
         Me.CloseToolStripMenuItem.Text = "Close"
         '
         'GbHashes
@@ -177,11 +172,9 @@ Partial Class FrmMain
         Me.GbHashes.Controls.Add(Me.LVOverview)
         Me.GbHashes.Controls.Add(Me.TxtHash)
         Me.GbHashes.Controls.Add(Me.Label1)
-        Me.GbHashes.Location = New System.Drawing.Point(32, 341)
-        Me.GbHashes.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.GbHashes.Location = New System.Drawing.Point(12, 143)
         Me.GbHashes.Name = "GbHashes"
-        Me.GbHashes.Padding = New System.Windows.Forms.Padding(8, 7, 8, 7)
-        Me.GbHashes.Size = New System.Drawing.Size(1856, 715)
+        Me.GbHashes.Size = New System.Drawing.Size(696, 300)
         Me.GbHashes.TabIndex = 9
         Me.GbHashes.TabStop = False
         Me.GbHashes.Text = "Hashes"
@@ -189,11 +182,9 @@ Partial Class FrmMain
         'GbProgress
         '
         Me.GbProgress.Controls.Add(Me.CustomProgressBar)
-        Me.GbProgress.Location = New System.Drawing.Point(32, 207)
-        Me.GbProgress.Margin = New System.Windows.Forms.Padding(8, 7, 8, 7)
+        Me.GbProgress.Location = New System.Drawing.Point(12, 87)
         Me.GbProgress.Name = "GbProgress"
-        Me.GbProgress.Padding = New System.Windows.Forms.Padding(8, 7, 8, 7)
-        Me.GbProgress.Size = New System.Drawing.Size(1856, 120)
+        Me.GbProgress.Size = New System.Drawing.Size(696, 50)
         Me.GbProgress.TabIndex = 10
         Me.GbProgress.TabStop = False
         Me.GbProgress.Text = "Progress"
@@ -201,17 +192,17 @@ Partial Class FrmMain
         'CustomProgressBar
         '
         Me.CustomProgressBar.CustomText = Nothing
-        Me.CustomProgressBar.Location = New System.Drawing.Point(24, 45)
-        Me.CustomProgressBar.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.CustomProgressBar.Location = New System.Drawing.Point(9, 19)
+        Me.CustomProgressBar.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.CustomProgressBar.Name = "CustomProgressBar"
-        Me.CustomProgressBar.Size = New System.Drawing.Size(1814, 45)
+        Me.CustomProgressBar.Size = New System.Drawing.Size(680, 19)
         Me.CustomProgressBar.TabIndex = 0
         '
         'FrmMain
         '
-        Me.AutoScaleDimensions = New System.Drawing.SizeF(16.0!, 31.0!)
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
-        Me.ClientSize = New System.Drawing.Size(1910, 1139)
+        Me.ClientSize = New System.Drawing.Size(716, 478)
         Me.Controls.Add(Me.GbProgress)
         Me.Controls.Add(Me.GbHashes)
         Me.Controls.Add(Me.GbRP)
@@ -220,7 +211,7 @@ Partial Class FrmMain
         Me.Controls.Add(Me.MenuStrip1)
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(6, 4, 6, 4)
+        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
         Me.Name = "FrmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
         Me.Text = "Reporting Package Hash Generator"

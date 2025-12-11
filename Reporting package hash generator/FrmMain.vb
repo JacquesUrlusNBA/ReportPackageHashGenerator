@@ -89,15 +89,15 @@ Public Class FrmMain
         st = New StackTrace(ex, True)
         Dim StrError As String = ""
 
-        StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
-        StrError &= "Please send the details and the circumstances about the error to esef@nba.nl" & Environment.NewLine & Environment.NewLine
-        StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
-        StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
-        StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
-        StrError &= "Row :" & st.GetFrame(0).GetFileLineNumber().ToString & Environment.NewLine
-        StrError &= "Description :" & ex.Message
+            StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
+            StrError &= "Please send the details and the circumstances about the error to sbr@nba.nl" & Environment.NewLine & Environment.NewLine
+            StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
+            StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
+            StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
+            StrError &= "Row :" & st.GetFrame(0).GetFileLineNumber().ToString & Environment.NewLine
+            StrError &= "Description :" & ex.Message
 
-        MsgBox(StrError, MsgBoxStyle.Critical, "Reporting Package Hash Generator")
+            MsgBox(StrError, MsgBoxStyle.Critical, "Reporting Package Hash Generator")
 
         End Try
 

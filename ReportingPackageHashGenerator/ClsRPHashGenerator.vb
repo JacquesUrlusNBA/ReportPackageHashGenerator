@@ -1,15 +1,18 @@
-﻿Imports System.IO
+﻿Imports System.Globalization
+Imports System.IO
 Imports System.IO.Compression
 Imports System.Security.Cryptography
 Imports System.Security.Cryptography.Xml
-Imports System.Xml
+Imports System.Text.RegularExpressions
 Imports System.Threading
+Imports System.Xml
+
 
 Public Class ClsRPHashGenerator
 
     Public Event EventFileProcessed(MaxFiles As Integer, CurrentFile As String)
-    ReadOnly StrXMLNamespace As String = "xmlns:xml=" & Chr(34) & "http://www.w3.org/XML/1998/namespace" & Chr(34)
-    Dim StrLastFile As String = "" 'Used for the error message
+    ReadOnly StrXMLNamespace As String = $"xmlns:xml={Chr(34)}http://www.w3.org/XML/1998/namespace{Chr(34)}"
+    Dim StrLastFile As String  'Used for the error message
 
     Public Function CreateHashFromSingleFile(StrFileLocation As String) As ClsHashResult
 
@@ -41,17 +44,17 @@ Public Class ClsRPHashGenerator
 
             'Create temparary directory
 
-            Dim StrTMPDir As String = (FileItem.FileName & Format(Now(), ("yyyyMMddHHmmss"))).GetHashCode
+            Dim StrTMPDir As String = ($"{FileItem.FileName}{Format(Now(), ("yyyyMMddHHmmss"))}").GetHashCode
 
-            Directory.CreateDirectory(My.Computer.FileSystem.SpecialDirectories.Temp & "/" & StrTMPDir)
+            Directory.CreateDirectory($"{My.Computer.FileSystem.SpecialDirectories.Temp}/{StrTMPDir}")
 
             'Copy file to temporary location
 
-            File.Copy(FileItem.FileLocationAndName, My.Computer.FileSystem.SpecialDirectories.Temp & "/" & StrTMPDir & "/" & FileItem.FileName)
+            File.Copy(FileItem.FileLocationAndName, $"{My.Computer.FileSystem.SpecialDirectories.Temp}/{StrTMPDir}/{FileItem.FileName}")
 
             'Change the FileLocationAndName atrribute
 
-            FileItem.FileLocationAndName = My.Computer.FileSystem.SpecialDirectories.Temp & "/" & StrTMPDir & "/" & FileItem.FileName
+            FileItem.FileLocationAndName = $"{My.Computer.FileSystem.SpecialDirectories.Temp}/{StrTMPDir}/{FileItem.FileName}"
 
             Select Case Path.GetExtension(FileItem.FileLocationAndName).ToUpper
 
@@ -81,8 +84,9 @@ Public Class ClsRPHashGenerator
 
                     Dim MemoryStream As New MemoryStream
 
-                    Dim Settings As New XmlReaderSettings
-                    Settings.DtdProcessing = DtdProcessing.Ignore
+                    Dim Settings As New XmlReaderSettings With {
+                        .DtdProcessing = DtdProcessing.Ignore
+                    }
 
                     Dim XMLreader As XmlReader = XmlReader.Create(FileItem.FileLocationAndName, Settings)
                     XMLreader.ReadOuterXml()
@@ -159,6 +163,27 @@ Public Class ClsRPHashGenerator
 
     End Function
 
+
+    Public Function CheckCoCFilingDocument(StrFile As String) As Boolean
+
+        '==================================
+        ' 2025-11-06: j.urlus@nba.nl
+        ' According to the Dutch Reporting Manual  G3-6-3_4: The filename of the separate Inline XBRL document for filing purposes MUST Match the “kvk-{date}-{lang}.html” pattern.
+        '==================================
+
+        ' Check the pattern
+
+        Dim BoolPatternMatch = Regex.Match(StrFile, "^kvk-(\d{4}-\d{2}-\d{2})-(en|du|fr|nl)\.html$")
+
+        If Not BoolPatternMatch.Success Then Return False
+
+        ' Check if it is a valid date
+
+        Dim DT As DateTime
+        Return DateTime.TryParseExact(BoolPatternMatch.Groups(1).Value, "yyyy-MM-dd", CultureInfo.InvariantCulture, DateTimeStyles.None, DT)
+
+    End Function
+
     Public Function CreateHash(StrRPZIPLocation As String) As ClsHashResult
 
         Dim BoolMainFolder As Boolean = False 'To identify if the variable of the main folder is set
@@ -183,10 +208,9 @@ Public Class ClsRPHashGenerator
                     '==================================
                     ' 2020-11-09: j.urlus@nba.nl
                     ' Let's assume that the auditors report is a (signed) PDF --> skip this file
+                    ' 2025-11-06: jurlus@nba.nl
+                    ' No reason for skipping files (unless determined by Regulatory Technical Standards or Reporting Manuals.
                     '==================================
-
-                    ''If Path.GetExtension(ZipEntry.FullName).ToUpper = "PDF" Then Continue For
-                    If String.Equals(Path.GetExtension(ZipEntry.FullName).ToUpper, "PDF") Then Continue For
 
                     '==================================
                     ' 2020-11-09: j.urlus@nba.nl
@@ -242,12 +266,12 @@ Public Class ClsRPHashGenerator
 
                     Else 'File is in the root of the zip file
 
-                            '==================================
-                            ' 2022-08-24: j.urlus@nba.nl
-                            ' Support for files in the root directory 
-                            '==================================
+                        '==================================
+                        ' 2022-08-24: j.urlus@nba.nl
+                        ' Support for files in the root directory 
+                        '==================================
 
-                            Directory.CreateDirectory(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root"))
+                        Directory.CreateDirectory(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root"))
 
                         'Copy file
 
@@ -314,8 +338,9 @@ Public Class ClsRPHashGenerator
 
                         Dim MemoryStream As New MemoryStream
 
-                        Dim Settings As New XmlReaderSettings
-                        Settings.DtdProcessing = DtdProcessing.Ignore
+                        Dim Settings As New XmlReaderSettings With {
+                            .DtdProcessing = DtdProcessing.Ignore
+                        }
 
                         Dim XMLreader As XmlReader = XmlReader.Create(FileItem.FileLocationAndName, Settings)
                         XMLreader.ReadOuterXml()
@@ -335,11 +360,21 @@ Public Class ClsRPHashGenerator
 
                         Dim Hash As String = Convert.ToBase64String(Bytes)
 
-                        FileItem.FileHash = Hash.Substring(Hash.Length - 16, 16) 'Store the last 16 positions of the hash 
+                        If CheckCoCFilingDocument(FileItem.FileName) = True Then
+
+                            FileItem.FileHashExcluded = True
+                            FileItem.FileHash = "Excluded from hash"
+
+                        Else
+
+                            FileItem.FileHashExcluded = False
+                            FileItem.FileHash = Hash.Substring(Hash.Length - 16, 16) 'Store the last 16 positions of the hash 
+
+                        End If
 
                         XMLreader.Close()
 
-                    Case Else 'This should be the images 
+                    Case Else 'This should be the images, pdf's etc.
 
                         Dim StreamInput As Stream = File.OpenRead(FileItem.FileLocationAndName)
                         StreamInput.Position = 0
@@ -370,7 +405,7 @@ Public Class ClsRPHashGenerator
 
             For Each FileItem As ClsFile In LstClsFileSorted
 
-                StrTotalHash = StrTotalHash & FileItem.FileHash
+                If FileItem.FileHashExcluded = False Then StrTotalHash &= FileItem.FileHash
 
             Next
 
@@ -409,7 +444,7 @@ Public Class ClsRPHashGenerator
             Dim StrError As String = ""
 
             StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
-            StrError &= "Please send the details and the circumstances about the error to esef@nba.nl" & Environment.NewLine & Environment.NewLine
+            StrError &= "Please send the details and the circumstances about the error to sbr@nba.nl" & Environment.NewLine & Environment.NewLine
             StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
             StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
             StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
@@ -439,7 +474,6 @@ Public Class ClsRPHashGenerator
     End Function
 
     Public Class ClsHashResult
-
         Public Property ReportingPackageHash As String
         Public Property FileList As List(Of ClsFile)
 
@@ -451,25 +485,15 @@ Public Class ClsRPHashGenerator
         Public Property FileName As String
         Public Property FileHash As String
 
+        '==================================
+        ' 2025-11-06: j.urlus@nba.nl
+        ' Property added for determining if the file must be excluded from the hash. For example for the file contaning the filing information for the Ducth COC.
+        '==================================
+
+        Public Property FileHashExcluded As Boolean
+
     End Class
 
 End Class
 
-Public Module XmlExtensions
-    <System.Runtime.CompilerServices.Extension>
-    Public Function ToStream(ByVal reader As XmlReader) As MemoryStream
-        Dim ms As New MemoryStream()
-        reader.CopyTo(ms)
-        Return ms
-    End Function
 
-    <System.Runtime.CompilerServices.Extension>
-    Public Sub CopyTo(ByVal reader As XmlReader, ByVal s As Stream)
-        Dim settings As New XmlWriterSettings()
-        settings.CheckCharacters = False
-        settings.CloseOutput = False
-        Using writer As XmlWriter = XmlWriter.Create(s, settings)
-            writer.WriteNode(reader, True)
-        End Using
-    End Sub
-End Module
