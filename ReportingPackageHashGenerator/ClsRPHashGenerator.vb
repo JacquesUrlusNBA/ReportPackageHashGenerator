@@ -3,10 +3,10 @@ Imports System.IO
 Imports System.IO.Compression
 Imports System.Security.Cryptography
 Imports System.Security.Cryptography.Xml
+Imports System.Text
 Imports System.Text.RegularExpressions
 Imports System.Threading
 Imports System.Xml
-
 
 Public Class ClsRPHashGenerator
 
@@ -132,7 +132,7 @@ Public Class ClsRPHashGenerator
             'Delete the file on the temporary location
 
             File.Delete(FileItem.FileLocationAndName)
-            Directory.Delete(My.Computer.FileSystem.SpecialDirectories.Temp & "/" & StrTMPDir)
+            Directory.Delete($"{My.Computer.FileSystem.SpecialDirectories.Temp}/{StrTMPDir}")
 
             Return HashResult
 
@@ -140,24 +140,32 @@ Public Class ClsRPHashGenerator
 
             Dim st As New StackTrace(True)
             st = New StackTrace(ex, True)
-            Dim StrError As String = ""
 
-            StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
-            StrError &= "Please send the details and the circumstances about the error to esef@nba.nl" & Environment.NewLine & Environment.NewLine
-            StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
-            StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
-            StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
-            StrError &= "Row :" & st.GetFrame(0).GetFileLineNumber().ToString & Environment.NewLine
+            Dim StrErrorBuilder As New StringBuilder
+
+            StrErrorBuilder.AppendLine($"An error has been detected in the Report Package Hash Generator.")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Please send the details and the circumstances about the error To sbr@nba.nl")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Version : {My.Application.Info.Version}")
+            StrErrorBuilder.AppendLine($"Module : {ex.TargetSite.DeclaringType.Name}")
+            StrErrorBuilder.AppendLine($"Procedure : {ex.TargetSite.Name}")
+            StrErrorBuilder.AppendLine($"Row : {st.GetFrame(0).GetFileLineNumber()}")
 
             If Not String.IsNullOrEmpty(StrLastFile) Then
 
-                StrError &= "File :" & StrLastFile & Environment.NewLine
+                StrErrorBuilder.AppendLine($"File : {StrLastFile}")
 
             End If
 
-            StrError &= "Description :" & ex.Message
+            StrErrorBuilder.Append($"Description : {ex.Message}")
 
-            MsgBox(StrError, MsgBoxStyle.Critical, "Reporting Package Hash Generator")
+            MsgBox(StrErrorBuilder.ToString, MsgBoxStyle.Critical, "Report Package Hash Generator")
+
+            Return New ClsHashResult With {
+          .ReportingPackageHash = Nothing,
+          .FileList = New List(Of ClsFile)()
+      }
 
         End Try
 
@@ -173,7 +181,7 @@ Public Class ClsRPHashGenerator
 
         ' Check the pattern
 
-        Dim BoolPatternMatch = Regex.Match(StrFile, "^kvk-(\d{4}-\d{2}-\d{2})-(en|du|fr|nl)\.html$")
+        Dim BoolPatternMatch = Regex.Match(StrFile, "^kvk-(\d{4}-\d{2}-\d{2})-(en|du|fr|nl)\.(xhtml|html|htm)$")
 
         If Not BoolPatternMatch.Success Then Return False
 
@@ -275,10 +283,10 @@ Public Class ClsRPHashGenerator
 
                         'Copy file
 
-                        ZipEntry.ExtractToFile(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root\" & Path.GetFileName(StrZipEntry)), True)
+                        ZipEntry.ExtractToFile(Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, $"Root\{Path.GetFileName(StrZipEntry)}"), True)
 
                         Dim FileItem As New ClsFile With {
-                           .FileLocationAndName = Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, "Root\" & Path.GetFileName(StrZipEntry)),
+                           .FileLocationAndName = Path.Combine(My.Computer.FileSystem.SpecialDirectories.Temp, $"Root\{Path.GetFileName(StrZipEntry)}"),
                            .FileName = Path.GetFileName(StrZipEntry)
                        }
 
@@ -295,7 +303,7 @@ Public Class ClsRPHashGenerator
             ' Create hashes from files in list (LstClsFile)
             '==================================
 
-            Dim StrXMLNamespace As String = "xmlns:xml=" & Chr(34) & "http://www.w3.org/XML/1998/namespace" & Chr(34)
+            Dim StrXMLNamespace As String = $"xmlns:xml={Chr(34)}http://www.w3.org/XML/1998/namespace{Chr(34)}"
 
             For Each FileItem As ClsFile In LstClsFile
 
@@ -441,24 +449,32 @@ Public Class ClsRPHashGenerator
 
             Dim st As New StackTrace(True)
             st = New StackTrace(ex, True)
-            Dim StrError As String = ""
 
-            StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
-            StrError &= "Please send the details and the circumstances about the error to sbr@nba.nl" & Environment.NewLine & Environment.NewLine
-            StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
-            StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
-            StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
-            StrError &= "Row :" & st.GetFrame(0).GetFileLineNumber().ToString & Environment.NewLine
+            Dim StrErrorBuilder As New StringBuilder
+
+            StrErrorBuilder.AppendLine($"An error has been detected in the Report Package Hash Generator.")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Please send the details and the circumstances about the error To sbr@nba.nl")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Version : {My.Application.Info.Version}")
+            StrErrorBuilder.AppendLine($"Module : {ex.TargetSite.DeclaringType.Name}")
+            StrErrorBuilder.AppendLine($"Procedure : {ex.TargetSite.Name}")
+            StrErrorBuilder.AppendLine($"Row : {st.GetFrame(0).GetFileLineNumber()}")
 
             If Not String.IsNullOrEmpty(StrLastFile) Then
 
-                StrError &= "File :" & StrLastFile & Environment.NewLine
+                StrErrorBuilder.AppendLine($"File : {StrLastFile}")
 
             End If
 
-            StrError &= "Description :" & ex.Message
+            StrErrorBuilder.Append($"Description : {ex.Message}")
 
-            MsgBox(StrError, MsgBoxStyle.Critical, "Reporting Package Hash Generator")
+            MsgBox(StrErrorBuilder.ToString, MsgBoxStyle.Critical, "Report Package Hash Generator")
+
+            Return New ClsHashResult With {
+            .ReportingPackageHash = Nothing,
+            .FileList = New List(Of ClsFile)()
+        }
 
         End Try
 

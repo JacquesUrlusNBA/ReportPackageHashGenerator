@@ -49,7 +49,7 @@ Partial Class FrmMain
         'CmdOpen
         '
         Me.CmdOpen.Location = New System.Drawing.Point(15, 18)
-        Me.CmdOpen.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CmdOpen.Margin = New System.Windows.Forms.Padding(2)
         Me.CmdOpen.Name = "CmdOpen"
         Me.CmdOpen.Size = New System.Drawing.Size(106, 26)
         Me.CmdOpen.TabIndex = 0
@@ -59,7 +59,7 @@ Partial Class FrmMain
         'TxtHash
         '
         Me.TxtHash.Location = New System.Drawing.Point(80, 18)
-        Me.TxtHash.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.TxtHash.Margin = New System.Windows.Forms.Padding(2)
         Me.TxtHash.Name = "TxtHash"
         Me.TxtHash.ReadOnly = True
         Me.TxtHash.Size = New System.Drawing.Size(182, 20)
@@ -78,7 +78,7 @@ Partial Class FrmMain
         'CmdClose
         '
         Me.CmdClose.Location = New System.Drawing.Point(636, 449)
-        Me.CmdClose.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CmdClose.Margin = New System.Windows.Forms.Padding(2)
         Me.CmdClose.Name = "CmdClose"
         Me.CmdClose.Size = New System.Drawing.Size(72, 23)
         Me.CmdClose.TabIndex = 3
@@ -92,7 +92,7 @@ Partial Class FrmMain
         Me.LVOverview.FullRowSelect = True
         Me.LVOverview.HideSelection = False
         Me.LVOverview.Location = New System.Drawing.Point(3, 47)
-        Me.LVOverview.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.LVOverview.Margin = New System.Windows.Forms.Padding(2)
         Me.LVOverview.MultiSelect = False
         Me.LVOverview.Name = "LVOverview"
         Me.LVOverview.Size = New System.Drawing.Size(690, 250)
@@ -193,7 +193,7 @@ Partial Class FrmMain
         '
         Me.CustomProgressBar.CustomText = Nothing
         Me.CustomProgressBar.Location = New System.Drawing.Point(9, 19)
-        Me.CustomProgressBar.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.CustomProgressBar.Margin = New System.Windows.Forms.Padding(2)
         Me.CustomProgressBar.Name = "CustomProgressBar"
         Me.CustomProgressBar.Size = New System.Drawing.Size(680, 19)
         Me.CustomProgressBar.TabIndex = 0
@@ -209,12 +209,15 @@ Partial Class FrmMain
         Me.Controls.Add(Me.CmdExportToClipboard)
         Me.Controls.Add(Me.CmdClose)
         Me.Controls.Add(Me.MenuStrip1)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog
         Me.Icon = CType(resources.GetObject("$this.Icon"), System.Drawing.Icon)
         Me.MainMenuStrip = Me.MenuStrip1
-        Me.Margin = New System.Windows.Forms.Padding(2, 2, 2, 2)
+        Me.Margin = New System.Windows.Forms.Padding(2)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
         Me.Name = "FrmMain"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "Reporting Package Hash Generator"
+        Me.Text = "Report Package Hash Generator"
         Me.GbRP.ResumeLayout(False)
         Me.GbRP.PerformLayout()
         Me.MenuStrip1.ResumeLayout(False)

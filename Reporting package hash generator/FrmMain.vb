@@ -1,4 +1,5 @@
 ﻿Imports System.IO
+Imports System.Text
 Imports System.Windows.Forms
 
 Public Class FrmMain
@@ -19,14 +20,14 @@ Public Class FrmMain
 
         AddHandler RPHG.EventFileProcessed, AddressOf Event_RPHGFileProcessed
 
-        'Selet the RP
+            'Selet the RP
 
-        Dim OpenFileDialog As New OpenFileDialog With {
-            .Title = "Select reporting package or stand-alone document",
+            Dim OpenFileDialog As New OpenFileDialog With {
+            .Title = "Select Report Package or stand-alone document",
             .Filter = "All files|*.*"
         }
 
-        Dim IntDialog As Integer = OpenFileDialog.ShowDialog()
+            Dim IntDialog As Integer = OpenFileDialog.ShowDialog()
 
         'Íf nothing selected then exit procedure. otherwise continue
 
@@ -51,7 +52,7 @@ Public Class FrmMain
             ' We should ignore the fact that the extensions are supported when written with capitals
             '==================================
 
-            If StrExtension = ".ZIP" Or StrExtension = ".XBRI" Or StrExtension = ".XBR" Then
+            If String.Equals(StrExtension, ".ZIP") Or String.Equals(StrExtension, ".XBRI") Or String.Equals(StrExtension, ".XBR") Then
 
                 'Calculated the hash results for the RP
 
@@ -86,18 +87,21 @@ Public Class FrmMain
         Catch ex As Exception
 
         Dim st As New StackTrace(True)
-        st = New StackTrace(ex, True)
-        Dim StrError As String = ""
+            st = New StackTrace(ex, True)
 
-            StrError = "An error has been detected in the Reporting Package Hash Generator." & Environment.NewLine & Environment.NewLine
-            StrError &= "Please send the details and the circumstances about the error to sbr@nba.nl" & Environment.NewLine & Environment.NewLine
-            StrError &= "Version :" & My.Application.Info.Version.ToString & Environment.NewLine
-            StrError &= "Module :" & ex.TargetSite.DeclaringType.Name & Environment.NewLine
-            StrError &= "Procedure :" & ex.TargetSite.Name & Environment.NewLine
-            StrError &= "Row :" & st.GetFrame(0).GetFileLineNumber().ToString & Environment.NewLine
-            StrError &= "Description :" & ex.Message
+            Dim StrErrorBuilder As New StringBuilder
 
-            MsgBox(StrError, MsgBoxStyle.Critical, "Reporting Package Hash Generator")
+            StrErrorBuilder.AppendLine($"An error has been detected in the Report Package Hash Generator.")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Please send the details and the circumstances about the error To sbr@nba.nl")
+            StrErrorBuilder.AppendLine()
+            StrErrorBuilder.AppendLine($"Version : {My.Application.Info.Version}")
+            StrErrorBuilder.AppendLine($"Module : {ex.TargetSite.DeclaringType.Name}")
+            StrErrorBuilder.AppendLine($"Procedure : {ex.TargetSite.Name}")
+            StrErrorBuilder.AppendLine($"Row : {st.GetFrame(0).GetFileLineNumber()}")
+            StrErrorBuilder.Append($"Description : {ex.Message}")
+
+            MsgBox(StrErrorBuilder.ToString, MsgBoxStyle.Critical, "Report Package Hash Generator")
 
         End Try
 
@@ -129,20 +133,20 @@ Public Class FrmMain
                              Let si = DirectCast(subitem, ListViewItem.ListViewSubItem)
                              Select si.Text).ToArray()).ToArray()
 
-        'If a stand-alone document is selected, the result of the hash of the reporting package is 'N/A'. If this is the case. don't show the result of the reporting package
+        'If a stand-alone document is selected, the result of the hash of the report package is 'N/A'. If this is the case. don't show the result of the reporting package
 
-        If Not TxtHash.Text = "N/A" Then
+        If Not String.Equals(TxtHash.Text, "N/A") Then
 
-            Table = "Name reporting package" & vbTab & "Overall hash" & Environment.NewLine
+            Table = $"Name report package{vbTab}Overall hash{Environment.NewLine}"
 
-            Table &= TxtSelectedRP.Text & vbTab & TxtHash.Text & Environment.NewLine & Environment.NewLine
+            Table &= $"{TxtSelectedRP.Text}{vbTab}{TxtHash.Text}{Environment.NewLine}{Environment.NewLine}"
 
         End If
 
-        Table &= String.Join(vbTab, Headers) & Environment.NewLine
+        Table &= $"{String.Join(vbTab, Headers)}{Environment.NewLine}"
 
         For Each a As String() In Items
-            Table &= String.Join(vbTab, a) & Environment.NewLine
+            Table &= $"{String.Join(vbTab, a)}{Environment.NewLine}"
         Next
 
         Clipboard.SetText(Table)
@@ -157,7 +161,7 @@ Public Class FrmMain
 
     Private Sub AboutToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles AboutToolStripMenuItem.Click
 
-        MsgBox("This tool calculates a hash of a ESEF reporting package or a stand-alone file. This hash can be used to authenticate the audit object." & vbNewLine & vbNewLine & "More information about this proof of concept, including the source code can be found at https://www.nba.nl/reporting-package-hash-generator." & vbNewLine & vbNewLine & "Questions or remarks can be sent to esef@nba.nl." & vbNewLine & vbNewLine & "This is version: " & Application.ProductVersion, MsgBoxStyle.OkOnly, "Reporting Package Hash Generator - Proof of concept")
+        MsgBox($"This tool calculates a hash of a Report Package or a stand-alone file. This hash can be used to authenticate the audit object.{vbNewLine}{vbNewLine}More information about this application can be found at https://www.nba.nl/reporting-package-hash-generator or https://github.com/JacquesUrlusNBA/ReportPackageHashGenerator{vbNewLine}{vbNewLine}Questions or remarks can be sent to sbr@nba.nl.{vbNewLine}{vbNewLine}This is version: {Application.ProductVersion}", MsgBoxStyle.OkOnly, "Report Package Hash Generator")
 
     End Sub
     Private Sub Event_RPHGFileProcessed(maxFile As Integer, currentFile As String)

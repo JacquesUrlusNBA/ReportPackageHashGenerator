@@ -8,10 +8,10 @@ Imports System.Runtime.InteropServices
 
 ' Review the values of the assembly attributes
 
-<Assembly: AssemblyTitle("Reporting package hash generator")>
+<Assembly: AssemblyTitle("Report Package hash generator")>
 <Assembly: AssemblyDescription("")>
 <Assembly: AssemblyCompany("The Royal Netherlands Institute of Chartered Accountants")>
-<Assembly: AssemblyProduct("Reporting package hash generator")>
+<Assembly: AssemblyProduct("Report Package hash generator")>
 <Assembly: AssemblyCopyright("Copyright © NBA 2021 - 2026")>
 <Assembly: AssemblyTrademark("")>
 
